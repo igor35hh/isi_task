@@ -13,6 +13,6 @@ cd isi_task_api
 
 python manage.py makemigrations
 
-python manage.py 
+python manage.py migrate
 
-python manage.py runserver
+python manage.py runserver or python manage.py test
