@@ -1,10 +1,9 @@
 from django.contrib.auth.backends import ModelBackend
 from accounts.models import CustomUser
-from isi_task_api import settings
 
 
 class AccountAuthBackend(ModelBackend):
-   
+
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
             user = CustomUser.objects.get(username=username)

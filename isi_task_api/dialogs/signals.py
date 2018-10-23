@@ -2,6 +2,8 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from dialogs.models import Thread
 from accounts.models import USERTYPE_ADMIN
+from sys import stdout
+
 
 @receiver(m2m_changed, sender=Thread.participants.through)
 def participants_changed(sender, instance, action, **kwards):
@@ -12,7 +14,4 @@ def participants_changed(sender, instance, action, **kwards):
                 try:
                     instance.delete()
                 except TypeError as e:
-                    self.stdout.write(str(e))
-                    
-                
-    
+                    stdout.write(str(e))
