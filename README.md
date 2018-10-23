@@ -11,7 +11,8 @@ git clone https://github.com/igor35hh/isi_task
 
 cd isi_task_api
 
-python manage.py makemigrations todo
-python manage.py makemigrations reminder
-python manage.py migrate
+python manage.py makemigrations
+
+python manage.py 
+
 python manage.py runserver
