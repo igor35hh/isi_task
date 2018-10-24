@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from rest_framework import status
 from django.urls import reverse
 from accounts.models import CustomUser
+from dialogs.views import ThreadViewSet
 
 client = Client()
 
@@ -61,6 +62,9 @@ class DialogsTest(TestCase):
         # check we have only two threads
         url = reverse('thread-list')
         response = client.get(url)
+        view = ThreadViewSet.as_view(
+            {'get': 'list'})(response.wsgi_request)
+        self.assertEqual(response.data, view.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
@@ -74,6 +78,9 @@ class DialogsTest(TestCase):
         # check we have only one after update threads
         url = reverse('thread-list')
         response = client.get(url)
+        view = ThreadViewSet.as_view(
+            {'get': 'list'})(response.wsgi_request)
+        self.assertEqual(response.data, view.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
@@ -102,10 +109,14 @@ class DialogsTest(TestCase):
                 self.test_admin.pk, 'thread': 1}
         response = client.post(url, data, content_type='application/json',
                                HTTP_AUTHORIZATION=secure)
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # thread's messages
         url = reverse('thread-detail', kwargs={'pk': 1})
         response = client.get(url)
+        view = ThreadViewSet.as_view(
+            {'get': 'retrieve'})(response.wsgi_request, pk=1)
+        self.assertEqual(response.data, view.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data.get('messages')), 2)
