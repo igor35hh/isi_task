@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from isi_task_api.routes import router
 from django.conf.urls import include
-from rest_framework.authtoken import views
+# from rest_framework.authtoken import views
+from accounts.views import LoginAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/login/', views.obtain_auth_token),
+    # path('api/login/', views.obtain_auth_token),
+    path('api/login/', LoginAPIView.as_view()),
 ]
